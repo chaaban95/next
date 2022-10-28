@@ -11,12 +11,12 @@ const Home: NextPage = () => {
     event.preventDefault();
     setError("");
 
-    if (title.length < 5 || title.length > 60) {
-      setError("Title must be between 5 and 100 characters");
+    if (title.length < 5 || title.length > 25) {
+      setError("Title must be between 5 and 25 characters");
       return;
     }
 
-    if (options.some((option) => option.length < 2 || option.length > 60)) {
+    if (options.some((option) => option.length < 2 || option.length > 30)) {
       setError("Options must be between 2 and 30 characters");
       return;
     }
@@ -103,8 +103,7 @@ const Home: NextPage = () => {
 
         <button type="submit">Create Poll</button>
       </form>
-      <p>Data: {JSON.stringify(options)}</p>
-      <p>Error: {JSON.stringify(error)}</p>
+      <p>{error}</p>
     </>
   );
 };

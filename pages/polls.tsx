@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 
 export default function PollsPage({ poll }) {
   const router = useRouter();
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   async function deletePoll(item) {
     fetch("./api/deletePoll", {
@@ -15,7 +18,11 @@ export default function PollsPage({ poll }) {
       body: JSON.stringify({
         id: item.id,
       }),
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then(() => {
+        refreshData();
+      });
   }
 
   return (

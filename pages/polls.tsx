@@ -6,23 +6,16 @@ import { useRouter } from "next/router";
 export default function PollsPage({ poll }) {
   const router = useRouter();
 
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
-
-  async function deletePoll() {
-    try {
-      fetch("./api/deletePoll", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "DELETE",
-      }).then(() => {
-        refreshData();
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  async function deletePoll(item) {
+    fetch("./api/deletePoll", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: item.id,
+      }),
+    }).then((res) => res.json());
   }
 
   return (
@@ -31,13 +24,13 @@ export default function PollsPage({ poll }) {
         <a>Create</a>
       </Link>
       {poll.map((item: Poll) => (
-        <>
+        <div key={item.id}>
           <p>{item.title}</p>
           {/* @ts-ignore */}
           <p>{item.choices}</p>
           <Link href={`/poll/${item.id}`}>Vote</Link>
-          <button onClick={async () => deletePoll(item.id)}>delete</button>
-        </>
+          <button onClick={async () => deletePoll(item)}>delete</button>
+        </div>
       ))}
     </>
   );

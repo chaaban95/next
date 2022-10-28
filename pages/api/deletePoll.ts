@@ -14,7 +14,7 @@ export default async function handler(
   try {
     const data = await prisma.poll.delete({
       where: {
-        id: id,
+        id,
       },
       select: {
         title: true,

@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 
 const OnePoll = ({ poll }) => {
   // const [vote, setVote] = useState(0);
-  const router = useRouter();
+  // const router = useRouter();
 
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
+  // const refreshData = () => {
+  //   router.replace(router.asPath);
+  // };
 
   // async function newVote() {
   //   fetch("../api/newVote", {

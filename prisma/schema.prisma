@@ -16,10 +16,5 @@ model Poll {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   choices   String
-}
-
-model Vote {
-  id       String @id @default(cuid())
-  pollId    Int
-  choice    String
+  vote      Int?
 }

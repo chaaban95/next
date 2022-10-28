@@ -10,38 +10,24 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { id, option } = req.body;
+  const { id } = req.body;
+  try {
+    const data = await prisma.poll.update({
+      where: {
+        id,
+      },
+      data: {
+        // @ts-ignore
+        vote: {
+          increment: 1,
+        },
+      },
+    });
 
-  const data = await prisma.poll.findUnique({
-    where: {
-      // @ts-ignore
-      id: parseInt(id),
-    },
-  });
-
-  if (!data) {
-    res.status(200).json({ message: "Poll not found" });
-    return;
+    res.status(200).json({ message: "Vote registered", data });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong :/ ${error}`,
+    });
   }
-
-  const options = data.choices.split(", ");
-  if (!options.includes(option)) {
-    res.status(200).json({ message: "Invalid option" });
-    return;
-  }
-
-  await prisma.vote.create({
-    data: {
-      choice: option,
-      pollId: parseInt(id),
-    },
-  });
-
-  const votes = await prisma.vote.findMany({
-    where: {
-      pollId: parseInt(id),
-    },
-  });
-
-  res.status(200).json({ message: "Vote registered", data: votes });
 }

@@ -23,6 +23,7 @@ export const getServerSideProps = async (context) => {
       id: id,
     },
     select: {
+      id: true,
       title: true,
       // @ts-ignore
       choices: true,

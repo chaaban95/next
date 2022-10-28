@@ -16,7 +16,7 @@ export default async function handler(
       data: {
         title,
         // @ts-ignore
-        choices: options.join(","),
+        choices: options.join(", "),
       },
     });
 

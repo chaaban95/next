@@ -1,8 +1,6 @@
-import Head from "next/head";
 import prisma from "../lib/db";
 import { Poll } from ".prisma/client";
 import Link from "next/link";
-import OnePoll from "./poll/[id]";
 import { useRouter } from "next/router";
 
 export default function PollsPage({ poll }) {
@@ -12,7 +10,7 @@ export default function PollsPage({ poll }) {
     router.replace(router.asPath);
   };
 
-  async function deletePoll(id: string) {
+  async function deletePoll() {
     try {
       fetch("./api/deletePoll", {
         headers: {
@@ -37,7 +35,7 @@ export default function PollsPage({ poll }) {
           <p>{item.title}</p>
           {/* @ts-ignore */}
           <p>{item.choices}</p>
-          <button>Vote</button>
+          <Link href={`/poll/${item.id}`}>Vote</Link>
           <button onClick={async () => deletePoll(item.id)}>delete</button>
         </>
       ))}
@@ -48,6 +46,7 @@ export default function PollsPage({ poll }) {
 export const getServerSideProps = async () => {
   const poll = await prisma.poll.findMany({
     select: {
+      id: true,
       title: true,
       // @ts-ignore
       choices: true,

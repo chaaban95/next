@@ -11,13 +11,11 @@ const Home: NextPage = () => {
     event.preventDefault();
     setError("");
 
-    // Validate title
     if (title.length < 5 || title.length > 60) {
       setError("Title must be between 5 and 100 characters");
       return;
     }
 
-    // Validate options
     if (options.some((option) => option.length < 2 || option.length > 60)) {
       setError("Options must be between 2 and 30 characters");
       return;
@@ -29,7 +27,6 @@ const Home: NextPage = () => {
       data?: any;
     };
 
-    // API
     fetch("./api/createPoll", {
       method: "POST",
       headers: {
@@ -42,12 +39,12 @@ const Home: NextPage = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        const resp: Data = res as any as Data;
+        const rsp: Data = res as any as Data;
 
-        if (resp.error) {
-          setError(resp.message);
+        if (rsp.error) {
+          setError(rsp.message);
         } else {
-          window.location.href = `/poll/${resp.data.id}`;
+          window.location.href = `/poll/${rsp.data.id}`;
         }
       });
   };

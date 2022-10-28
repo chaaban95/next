@@ -3,7 +3,6 @@ import prisma from "../../lib/db";
 
 type Data = {
   message: string;
-  error: boolean;
   data?: any;
 };
 
@@ -21,13 +20,13 @@ export default async function handler(
   });
 
   if (!data) {
-    res.status(200).json({ message: "Poll not found", error: true });
+    res.status(200).json({ message: "Poll not found" });
     return;
   }
 
-  const options = data.choices.split(",");
+  const options = data.choices.split(", ");
   if (!options.includes(option)) {
-    res.status(200).json({ message: "Invalid option", error: true });
+    res.status(200).json({ message: "Invalid option" });
     return;
   }
 
@@ -44,7 +43,5 @@ export default async function handler(
     },
   });
 
-  res
-    .status(200)
-    .json({ message: "Vote registered", error: false, data: votes });
+  res.status(200).json({ message: "Vote registered", data: votes });
 }

@@ -2,6 +2,7 @@ import prisma from "../lib/db";
 import { Poll } from ".prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function PollsPage({ poll }) {
   const router = useRouter();
@@ -21,12 +22,16 @@ export default function PollsPage({ poll }) {
     })
       .then((res) => res.json())
       .then(() => {
+        toast.success("Successfully deleted!");
         refreshData();
       });
   }
 
   return (
     <>
+      <div>
+        <Toaster />
+      </div>
       <Link href="/create">
         <a>Create</a>
       </Link>
